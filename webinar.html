@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Free Live Training | Transforming Toddlerhood</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+:root { --plum: #2D1F2D; --plum-mid: #4A3548; --plum-soft: #7A5C78; --rose: #C9928A; --rose-deep: #B07870; --blush: #E8D5D0; --cream: #FBF7F2; --mist: #EEF0EC; --white: #FFFFFF; --amber: #C4956A; --sage: #8DAB8B; --text-dark: #2D1F2D; --text-mid: rgba(45,31,45,0.65); --text-light: rgba(45,31,45,0.42); }
+body { font-family: 'Inter', sans-serif; background-color: var(--plum); min-height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: flex-start; padding: 32px 16px 64px; position: relative; overflow-x: hidden; }
+body::before { content: ''; position: fixed; inset: 0; background: radial-gradient(ellipse at 20% 10%, rgba(201,146,138,0.08) 0%, transparent 60%), radial-gradient(ellipse at 80% 90%, rgba(201,146,138,0.06) 0%, transparent 55%); pointer-events: none; z-index: 0; }
+.header { width: 100%; max-width: 560px; display: flex; align-items: center; justify-content: center; margin-bottom: 32px; position: relative; z-index: 10; }
+.logo { font-family: 'Cormorant Garamond', serif; font-size: 15px; font-weight: 500; letter-spacing: 2px; text-transform: uppercase; color: rgba(251,247,242,0.55); }
+.logo span { color: var(--rose); margin-right: 6px; }
+.container { width: 100%; max-width: 560px; position: relative; z-index: 10; }
+.card { background: var(--cream); border-radius: 20px; padding: 48px 44px; box-shadow: 0 24px 64px rgba(0,0,0,0.28), 0 4px 12px rgba(0,0,0,0.12); animation: slideUp 0.5s cubic-bezier(0.22, 1, 0.36, 1); position: relative; overflow: hidden; }
+@media (max-width: 560px) { .card { padding: 36px 24px; border-radius: 16px; } }
+@keyframes slideUp { from { opacity: 0; transform: translateY(18px); } to { opacity: 1; transform: translateY(0); } }
+.eyebrow { font-size: 11px; font-weight: 600; letter-spacing: 2px; text-transform: uppercase; color: var(--rose); display: block; margin-bottom: 18px; }
+h1 { font-family: 'Cormorant Garamond', serif; font-size: 38px; font-weight: 600; line-height: 1.15; color: var(--text-dark); margin-bottom: 16px; }
+@media (max-width: 480px) { h1 { font-size: 30px; } }
+.subtitle { font-size: 16px; line-height: 1.75; color: var(--text-mid); margin-bottom: 28px; }
+.date-pills { display: flex; gap: 10px; margin-bottom: 28px; flex-wrap: wrap; }
+.date-pill { flex: 1; min-width: 140px; background: var(--white); border: 1.5px solid #CDCAC7; border-radius: 14px; padding: 16px 18px; cursor: pointer; transition: border-color 0.2s, background 0.2s, transform 0.1s; text-align: center; position: relative; }
+.date-pill:hover { border-color: #B0A8A3; background: #F5F3F1; }
+.date-pill.selected { border-color: var(--rose-deep); background: #FDF2F0; border-width: 2px; }
+.date-pill.selected::after { content: '\2713'; position: absolute; right: 14px; top: 14px; color: var(--rose); font-weight: 700; font-size: 16px; }
+.date-pill:active { transform: scale(0.98); }
+.date-pill .day { font-family: 'Cormorant Garamond', serif; font-size: 20px; font-weight: 600; color: var(--text-dark); margin-bottom: 2px; }
+.date-pill .time { font-size: 12px; color: var(--text-mid); font-weight: 400; }
+.divider { height: 1px; background: var(--blush); margin: 0 0 24px; }
+.form-field { margin-bottom: 14px; }
+.form-field input { width: 100%; padding: 15px 18px; border: 1.5px solid #CDCAC7; border-radius: 12px; font-family: 'Inter', sans-serif; font-size: 15px; color: var(--text-dark); background: var(--white); transition: border-color 0.2s, background 0.2s; }
+.form-field input::placeholder { color: var(--text-light); }
+.form-field input:focus { outline: none; border-color: var(--rose); background: #FDF2F0; }
+.btn { width: 100%; padding: 18px 28px; margin-top: 8px; background: var(--rose); color: var(--white); border: none; border-radius: 60px; font-family: 'Inter', sans-serif; font-size: 15px; font-weight: 600; cursor: pointer; transition: background 0.2s, transform 0.15s, box-shadow 0.2s; line-height: 1; letter-spacing: 0.2px; }
+.btn:hover { background: var(--rose-deep); transform: translateY(-2px); box-shadow: 0 8px 24px rgba(201,146,138,0.32); }
+.btn:active { transform: translateY(0); box-shadow: none; }
+.btn:disabled { opacity: 0.6; cursor: not-allowed; transform: none; box-shadow: none; }
+.form-note { font-size: 12px; color: var(--text-light); text-align: center; margin-top: 16px; line-height: 1.6; }
+.benefits { margin-top: 32px; padding-top: 28px; border-top: 1px solid var(--blush); }
+.benefits h3 { font-family: 'Cormorant Garamond', serif; font-size: 22px; font-weight: 600; color: var(--text-dark); margin-bottom: 16px; }
+.benefit-item { display: flex; align-items: flex-start; gap: 12px; margin-bottom: 14px; }
+.benefit-check { color: var(--rose); font-weight: 700; font-size: 16px; flex-shrink: 0; margin-top: 2px; }
+.benefit-text { font-size: 14.5px; line-height: 1.65; color: var(--text-mid); }
+.toast { position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%); background: var(--plum); color: var(--cream); padding: 14px 24px; border-radius: 30px; font-size: 14px; font-weight: 500; z-index: 1000; animation: toastUp 0.3s ease-out; white-space: nowrap; }
+@keyframes toastUp { from { opacity: 0; transform: translateX(-50%) translateY(10px); } to { opacity: 1; transform: translateX(-50%) translateY(0); } }
+.success-wrap { display: none; text-align: center; padding: 24px 0 12px; animation: slideUp 0.5s cubic-bezier(0.22, 1, 0.36, 1); }
+.success-wrap .icon { font-size: 48px; margin-bottom: 20px; display: block; }
+.success-wrap h2 { font-family: 'Cormorant Garamond', serif; font-size: 32px; font-weight: 600; color: var(--text-dark); margin-bottom: 14px; }
+.success-wrap p { font-size: 15px; line-height: 1.75; color: var(--text-mid); margin-bottom: 10px; }
+</style>
+</head>
+<body>
+<header class="header"><p class="logo"><span>&#9829;</span> Transforming Toddlerhood</p></header>
+<div class="container"><div class="card">
+<div id="reg-form-wrap">
+<span class="eyebrow">Free Live Training</span>
+<h1>How to Get Your Child to Listen</h1>
+<p class="subtitle">Without losing your cool or giving in.<br>A free live training with Devon on <strong>April 25 &amp; 26</strong>.</p>
+<p style="font-size:13px;font-weight:600;color:var(--text-dark);margin-bottom:12px;">Choose your session:</p>
+<div class="date-pills" id="date-pills">
+<div class="date-pill" data-session="April 25" onclick="selectDate(this)"><div class="day">Friday, April 25</div><div class="time">Live Session</div></div>
+<div class="date-pill" data-session="April 26" onclick="selectDate(this)"><div class="day">Saturday, April 26</div><div class="time">Live Session</div></div>
+</div>
+<div class="divider"></div>
+<form id="webinar-form" onsubmit="submitForm(event)">
+<div class="form-field"><input type="text" id="input-name" placeholder="First name" required></div>
+<div class="form-field"><input type="email" id="input-email" placeholder="Email address" required></div>
+<div class="form-field"><input type="tel" id="input-phone" placeholder="Phone number (optional)"></div>
+<button type="submit" class="btn" id="submit-btn">Save My Free Seat</button>
+</form>
+<p class="form-note">100% free. Your seat is confirmed instantly.<br>You'll also get a reminder before we go live.</p>
+<div class="benefits"><h3>In this training, you'll learn:</h3>
+<div class="benefit-item"><span class="benefit-check">&#10003;</span><span class="benefit-text">The real reason your child isn't listening (it's not what you think)</span></div>
+<div class="benefit-item"><span class="benefit-check">&#10003;</span><span class="benefit-text">What to say in the heat of the moment instead of repeating yourself</span></div>
+<div class="benefit-item"><span class="benefit-check">&#10003;</span><span class="benefit-text">How to hold boundaries without yelling, bribing, or giving in</span></div>
+<div class="benefit-item"><span class="benefit-check">&#10003;</span><span class="benefit-text">One small shift that makes bedtime, mealtimes, and transitions easier tonight</span></div>
+</div></div>
+<div class="success-wrap" id="success-wrap"><span class="icon">&#127881;</span><h2>You're in!</h2><p>Your free seat is saved. Check your inbox for all the details.</p><p style="font-size:13px;color:var(--text-light);">Redirecting you now&hellip;</p></div>
+</div></div>
+<script>
+var selectedSession = '';
+function selectDate(el) {
+  document.querySelectorAll('.date-pill').forEach(function(p) { p.classList.remove('selected'); });
+  el.classList.add('selected');
+  selectedSession = el.getAttribute('data-session');
+}
+document.querySelector('.date-pill').click();
+function submitForm(e) {
+  e.preventDefault();
+  var name = document.getElementById('input-name').value.trim();
+  var email = document.getElementById('input-email').value.trim();
+  var phone = document.getElementById('input-phone').value.trim();
+  if (!name || !email) { showToast('Please fill in your name and email.'); return; }
+  if (!selectedSession) { showToast('Please choose a session date.'); return; }
+  var btn = document.getElementById('submit-btn');
+  btn.disabled = true;
+  btn.textContent = 'Saving your seat\u2026';
+  if (window.parent !== window) {
+    window.parent.postMessage({ type: 'webinar-submit', name: name, email: email, phone: phone, session_date: selectedSession }, '*');
+  }
+  setTimeout(function() {
+    document.getElementById('reg-form-wrap').style.display = 'none';
+    document.getElementById('success-wrap').style.display = 'block';
+    reportHeight();
+  }, 1200);
+}
+function showToast(msg) {
+  var t = document.createElement('div'); t.className = 'toast'; t.textContent = msg;
+  document.body.appendChild(t); setTimeout(function() { t.remove(); }, 3200);
+}
+function reportHeight() {
+  if (window.parent !== window) {
+    var h = document.querySelector('.container');
+    var height = h ? h.offsetHeight + h.offsetTop + 40 : document.body.scrollHeight;
+    window.parent.postMessage({ type: 'webinar-height', height: height }, '*');
+  }
+}
+reportHeight();
+setInterval(reportHeight, 500);
+new MutationObserver(reportHeight).observe(document.body, { childList: true, subtree: true, attributes: true });
+</script>
+</body>
+</html>
