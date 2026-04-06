@@ -153,85 +153,44 @@ submitEmail:function(e){
   var submitBtn = document.querySelector('#email-form button[type="submit"]');
   var originalBtnText = submitBtn ? submitBtn.textContent : '';
 
-  var hiddenBox = document.getElementById('contentbox-8480c121');
-
-  if(!hiddenBox){
-    console.error('Hidden systeme box not found');
-    this.toast('Systeme form is not connected');
-    return;
-  }
-
-  var sysName = hiddenBox.querySelector('#field-f6f042a4 input, input#field-f6f042a4, #field-f6f042a4 textarea, #field-f6f042a4 select');
-  var sysEmail = hiddenBox.querySelector('#field-6e7847cd input, input#field-6e7847cd, #field-6e7847cd textarea, #field-6e7847cd select');
-  var sysResult = hiddenBox.querySelector('#field-ffd263e4 input, input#field-ffd263e4, #field-ffd263e4 textarea, #field-ffd263e4 select');
-  var sysSubmit = hiddenBox.querySelector('#button-d961adb7 button, #button-d961adb7 a, button#button-d961adb7, a#button-d961adb7, input[type="submit"]#button-d961adb7, #button-d961adb7 input[type="submit"]');
-
-  if(!sysName || !sysEmail || !sysResult || !sysSubmit){
-    console.error('Systeme fields/button not found', {
-      sysName: sysName,
-      sysEmail: sysEmail,
-      sysResult: sysResult,
-      sysSubmit: sysSubmit
-    });
-    this.toast('Systeme form is not connected');
-    return;
-  }
-
   if(submitBtn){
     submitBtn.disabled = true;
     submitBtn.textContent = 'Loading...';
   }
 
-  try {
-    const setNativeValue = function(el, value){
-  const prototype = el.tagName === 'TEXTAREA'
-    ? HTMLTextAreaElement.prototype
-    : HTMLInputElement.prototype;
-
-  const descriptor = Object.getOwnPropertyDescriptor(prototype, 'value');
-  const setter = descriptor && descriptor.set;
-
-  if (setter) {
-    setter.call(el, value);
-  } else {
-    el.value = value;
+  /* Send data to parent Systeme.io page via postMessage */
+  if(window.parent !== window){
+    window.parent.postMessage({
+      type: 'quiz-submit',
+      name: this.name,
+      email: this.email,
+      result: this.result
+    }, '*');
   }
 
-  el.dispatchEvent(new Event('input', { bubbles: true }));
-  el.dispatchEvent(new Event('change', { bubbles: true }));
-  el.dispatchEvent(new Event('blur', { bubbles: true }));
-};
-
-setNativeValue(sysName, this.name);
-setNativeValue(sysEmail, this.email);
-setNativeValue(sysResult, this.result);
-
-    setTimeout(function(){
-      sysSubmit.dispatchEvent(new MouseEvent('click', {
-        view: window,
-        bubbles: true,
-        cancelable: true
-      }));
-    }, 150);
-
-    var self = this;
-    setTimeout(function(){
-      self.buildResult();
-      self.goTo(10);
-    }, 1400);
-
-  } catch(err){
-    console.error(err);
-    this.toast('Something went wrong');
-  } finally {
+  var self = this;
+  setTimeout(function(){
+    self.buildResult();
+    self.goTo(10);
     if(submitBtn){
       submitBtn.disabled = false;
       submitBtn.textContent = originalBtnText || 'Show Me My Results';
     }
-  }
+  }, 1400);
 },
 
-buildResult:function(){var r=this.results[this.result];document.getElementById('result-tag').textContent=r.tag;document.getElementById('result-tag').className='result-type-tag '+r.tagClass;document.getElementById('result-headline').textContent=r.headline;document.getElementById('result-p1').textContent=r.p1;document.getElementById('result-p2').textContent=r.p2;document.getElementById('result-highlight').textContent=r.highlight;document.getElementById('result-highlight').className='highlight-box '+r.tagClass;document.getElementById('result-workshop').textContent=r.workshop;document.getElementById('result-workshop').className='workshop-bridge '+r.tagClass},share:function(e){e.preventDefault();var url=window.location.href.split('?')[0]+'?result='+this.result;if(navigator.share){navigator.share({title:'My Parenting Style Results',url:url})}else{var self=this;navigator.clipboard.writeText(url).then(function(){self.toast('Link copied.')}).catch(function(){self.toast('Copy: '+url)})}},goKitPayment:function(){window.location.href='#kit-checkout'},skipKit:function(){this.goTo(11)},toast:function(msg){var t=document.createElement('div');t.className='toast';t.textContent=msg;document.body.appendChild(t);setTimeout(function(){t.remove()},3200)}};document.addEventListener('DOMContentLoaded',function(){quiz.goTo(0)})}()
+buildResult:function(){var r=this.results[this.result];document.getElementById('result-tag').textContent=r.tag;document.getElementById('result-tag').className='result-type-tag '+r.tagClass;document.getElementById('result-headline').textContent=r.headline;document.getElementById('result-p1').textContent=r.p1;document.getElementById('result-p2').textContent=r.p2;document.getElementById('result-highlight').textContent=r.highlight;document.getElementById('result-highlight').className='highlight-box '+r.tagClass;document.getElementById('result-workshop').textContent=r.workshop;document.getElementById('result-workshop').className='workshop-bridge '+r.tagClass},share:function(e){e.preventDefault();var url=window.location.href.split('?')[0]+'?result='+this.result;if(navigator.share){navigator.share({title:'My Parenting Style Results',url:url})}else{var self=this;navigator.clipboard.writeText(url).then(function(){self.toast('Link copied.')}).catch(function(){self.toast('Copy: '+url)})}},goKitPayment:function(){window.location.href='#kit-checkout'},skipKit:function(){this.goTo(11)},toast:function(msg){var t=document.createElement('div');t.className='toast';t.textContent=msg;document.body.appendChild(t);setTimeout(function(){t.remove()},3200)}};document.addEventListener('DOMContentLoaded',function(){
+  quiz.goTo(0);
+  /* Report height to parent for iframe auto-resize */
+  function reportHeight(){
+    if(window.parent !== window){
+      window.parent.postMessage({type:'quiz-height',height:document.body.scrollHeight},'*');
+    }
+  }
+  reportHeight();
+  setInterval(reportHeight, 500);
+  new MutationObserver(reportHeight).observe(document.body,{childList:true,subtree:true,attributes:true});
+})}()
 </script>
 </body>
 </html>
