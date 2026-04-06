@@ -184,7 +184,7 @@ buildResult:function(){var r=this.results[this.result];document.getElementById('
   /* Report height to parent for iframe auto-resize */
   function reportHeight(){
     if(window.parent !== window){
-      window.parent.postMessage({type:'quiz-height',height:document.body.scrollHeight},'*');
+      window.parent.postMessage({type:'quiz-height',height:(document.querySelector(".container") ? document.querySelector(".container").offsetHeight + document.querySelector(".container").offsetTop + 40 : document.body.scrollHeight)},'*');
     }
   }
   reportHeight();
