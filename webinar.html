@@ -106,6 +106,14 @@ function submitForm(e) {
     document.getElementById('reg-form-wrap').style.display = 'none';
     document.getElementById('success-wrap').style.display = 'block';
     reportHeight();
+    setTimeout(function() {
+      var upsellUrl = 'https://0e3d-contact.systeme.io/8d63506d';
+      if (window.parent !== window) {
+        window.parent.location.href = upsellUrl;
+      } else {
+        window.location.href = upsellUrl;
+      }
+    }, 2000);
   }, 1200);
 }
 function showToast(msg) {
